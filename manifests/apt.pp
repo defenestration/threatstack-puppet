@@ -1,4 +1,4 @@
-# == Class: threatstack::apt
+# == Class: threatstackv1::apt
 #
 # Setup Threat Stack APT repo.
 #
@@ -16,7 +16,7 @@
 #
 # Copyright 2016 Threat Stack
 #
-class threatstack::apt {
+class threatstackv1::apt {
   $apt_source_file = '/etc/apt/sources.list.d/threatstack.list'
 
   Exec {
@@ -34,7 +34,7 @@ class threatstack::apt {
     owner   => 'root',
     group   => 'root',
     mode    => '0644',
-    content => "deb ${threatstack::repo_url} ${::lsbdistcodename} main",
+    content => "deb ${threatstackv1::repo_url} ${::lsbdistcodename} main",
     notify  => Exec['ts-agent-apt-get-update']
   }
 
@@ -44,7 +44,7 @@ class threatstack::apt {
   }
 
   exec { 'ts-gpg-import':
-    command => "curl ${threatstack::gpg_key} | apt-key add -",
+    command => "curl ${threatstackv1::gpg_key} | apt-key add -",
     unless  => 'apt-key list | grep "Threat Stack"',
     notify  => Exec['ts-agent-apt-get-update'],
     require => Package['curl']

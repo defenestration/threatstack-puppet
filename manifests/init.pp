@@ -74,24 +74,24 @@
 #
 # Copyright 2016 Threat Stack, Inc.
 #
-class threatstack (
+class threatstack::v1 (
   $deploy_key        = undef,
   $feature_plan      = undef,
   $package_version   = 'installed',
   $configure_agent   = true,
   $agent_extra_args  = '',
   $agent_config_args = undef,
-  $repo_url          = $::threatstack::params::repo_url,
-  $gpg_key           = $::threatstack::params::gpg_key,
-  $ruleset           = $::threatstack::params::ruleset,
+  $repo_url          = $::threatstack::v1::params::repo_url,
+  $gpg_key           = $::threatstack::v1::params::gpg_key,
+  $ruleset           = $::threatstack::v1::params::ruleset,
   $ts_hostname       = $::fqdn
-) inherits ::threatstack::params {
+) inherits ::threatstack::v1::params {
 
-  $ts_package = $::threatstack::params::ts_package
+  $ts_package = $::threatstack::v1::params::ts_package
 
-  anchor { '::threatstack::start': } ->
-  class { '::threatstack::package': } ->
-  anchor { '::threatstack::end': }
+  anchor { '::threatstack::v1::start': } ->
+  class { '::threatstack::v1::package': } ->
+  anchor { '::threatstack::v1::end': }
 
 
   if $configure_agent {
@@ -102,12 +102,12 @@ class threatstack (
       fail('$feature_plan needs to be set to "monitor", "investigate", or a"legacy". See https://www.threatstack.com/plans')
     }
 
-    class { '::threatstack::configure': }
-    class { '::threatstack::service': }
+    class { '::threatstack::v1::configure': }
+    class { '::threatstack::v1::service': }
 
-    Class['::threatstack::package'] ->
-    Class['::threatstack::configure'] ->
-    Class['::threatstack::service'] ->
-    Anchor['::threatstack::end']
+    Class['::threatstack::v1::package'] ->
+    Class['::threatstack::v1::configure'] ->
+    Class['::threatstack::v1::service'] ->
+    Anchor['::threatstack::v1::end']
   }
 }

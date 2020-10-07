@@ -15,16 +15,16 @@
 #
 # Copyright 2016 Threat Stack, Inc.
 #
-class threatstack::package {
+class threatstack::v1::package {
 
-  class { $::threatstack::repo_class: }
+  class { $::threatstack::v1::repo_class: }
 
   # NOTE: We do not signal the cloudsight service to restart because the
   # package takes care of this.  The workflow differs between fresh
   # installation and upgrades.
-  package { $::threatstack::ts_package:
-    ensure  => $::threatstack::package_version,
-    require => Class[$::threatstack::repo_class]
+  package { $::threatstack::v1::ts_package:
+    ensure  => $::threatstack::v1::package_version,
+    require => Class[$::threatstack::v1::repo_class]
   }
 
 }

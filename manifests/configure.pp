@@ -16,23 +16,23 @@
 #
 # Copyright 2016 Threat Stack, Inc.
 #
-class threatstack::configure {
+class threatstack::v1::configure {
 
-  $rulesets     = $::threatstack::ruleset # bring value into scope.
+  $rulesets     = $::threatstack::v1::ruleset # bring value into scope.
   $ruleset_args = inline_template("<% @rulesets.each do |ruleset| -%> --ruleset='<%= ruleset %>'<% end -%>")
 
-  $feature_plan_arg = $::threatstack::feature_plan ? {
+  $feature_plan_arg = $::threatstack::v1::feature_plan ? {
     investigate => 'agent_type="i"',
     monitor     => 'agent_type="m"',
     legacy      => 'agent_type="i"'
   }
 
-  $full_config_args_list = delete_undef_values([$::threatstack::agent_config_args, $feature_plan_arg])
+  $full_config_args_list = delete_undef_values([$::threatstack::v1::agent_config_args, $feature_plan_arg])
   $full_config_args = join($full_config_args_list, ' ')
 
   exec { 'threatstack-agent-setup':
-    command   => "/opt/threatstack/bin/cloudsight setup --deploy-key='${::threatstack::deploy_key}' --hostname='${::threatstack::ts_hostname}' ${ruleset_args} ${::threatstack::agent_extra_args}",
-    subscribe => Package[$threatstack::ts_package],
+    command   => "/opt/threatstack/bin/cloudsight setup --deploy-key='${::threatstack::v1::deploy_key}' --hostname='${::threatstack::v1::ts_hostname}' ${ruleset_args} ${::threatstack::v1::agent_extra_args}",
+    subscribe => Package[$threatstack::v1::ts_package],
     creates   => '/opt/threatstack/cloudsight/config/.audit',
     path      => '/usr/bin'
   }
@@ -52,7 +52,7 @@ class threatstack::configure {
     subscribe   => File['/opt/threatstack/cloudsight/config/.config_args'],
     refreshonly => true,
     path        => ['/bin', '/usr/bin'],
-    notify      => Class['threatstack::service']
+    notify      => Class['threatstack::v1::service']
   }
 
 }
