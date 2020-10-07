@@ -1,13 +1,13 @@
 require 'spec_helper'
 
-describe 'threatstack::yum' do
+describe 'threatstack::v1::yum' do
 
   deploy_key = ENV['TS_DEPLOY_KEY'] ? ENV['TS_DEPLOY_KEY'] : "xKkRzesqg"
   feature_plan = ENV['TS_FEATURE_PLAN'] ? ENV['TS_FEATURE_PLAN'] : "monitor"
 
   context 'on RedHat' do
     let(:facts) { {:osfamily => 'RedHat', :operatingsystemmajrelease => '6', :operatingsystem => 'RedHat'} }
-    let(:pre_condition) { "class { 'threatstack': deploy_key => '#{deploy_key}', feature_plan => '#{feature_plan}' }" }
+    let(:pre_condition) { "class { 'threatstack::v1': deploy_key => '#{deploy_key}', feature_plan => '#{feature_plan}' }" }
 
     context 'default' do
       it { should contain_yumrepo('threatstack').with(
@@ -22,7 +22,7 @@ describe 'threatstack::yum' do
 
   context 'on CentOS' do
     let(:facts) { {:osfamily => 'RedHat', :operatingsystemmajrelease => '7', :operatingsystem => 'CentOS'} }
-    let(:pre_condition) { "class { 'threatstack': deploy_key => '#{deploy_key}', feature_plan => '#{feature_plan}' }" }
+    let(:pre_condition) { "class { 'threatstack::v1': deploy_key => '#{deploy_key}', feature_plan => '#{feature_plan}' }" }
 
     context 'default' do
       it { should contain_yumrepo('threatstack').with(
@@ -37,7 +37,7 @@ describe 'threatstack::yum' do
 
   context 'on Amazon' do
     let(:facts) { {:osfamily => 'RedHat', :operatingsystem => 'Amazon'} }
-    let(:pre_condition) { "class { 'threatstack': deploy_key => '#{deploy_key}', feature_plan => '#{feature_plan}' }" }
+    let(:pre_condition) { "class { 'threatstack::v1': deploy_key => '#{deploy_key}', feature_plan => '#{feature_plan}' }" }
 
     context 'default' do
       it { should contain_yumrepo('threatstack').with(
