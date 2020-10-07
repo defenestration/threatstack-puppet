@@ -4,7 +4,7 @@
 #
 # === Examples
 #
-# This class is not meant to be directly re`alized outside of
+# This class is not meant to be directly realized outside of
 # Class['::threatstack'].
 #
 # === Authors

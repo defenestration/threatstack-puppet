@@ -16,7 +16,7 @@
 #
 # Copyright 2016 Threat Stack, Inc.
 #
-class threatstack::v1::yum {
+class threatstackv1::yum {
   Exec {
     path => ['/bin', '/usr/bin']
   }
@@ -32,16 +32,16 @@ class threatstack::v1::yum {
   }
 
   exec { 'ts-gpg-fetch':
-    command => "wget ${::threatstack::v1::gpg_key} -O ${::threatstack::v1::gpg_key_file}",
-    creates => $::threatstack::v1::gpg_key_file
+    command => "wget ${::threatstackv1::gpg_key} -O ${::threatstackv1::gpg_key_file}",
+    creates => $::threatstackv1::gpg_key_file
   }
 
   yumrepo { 'threatstack':
     descr    => 'Threat Stack Package Repository',
     enabled  => 1,
-    baseurl  => $::threatstack::v1::repo_url,
+    baseurl  => $::threatstackv1::repo_url,
     gpgcheck => 1,
-    gpgkey   => $::threatstack::v1::gpg_key_file_uri,
+    gpgkey   => $::threatstackv1::gpg_key_file_uri,
     require  => Exec['ts-gpg-fetch']
   }
 }

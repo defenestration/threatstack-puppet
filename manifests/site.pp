@@ -16,12 +16,12 @@ include ::stdlib
 if $::operatingsystem == 'Debian' {
   package { 'apt-transport-https':
     ensure => installed,
-    before => Class['::threatstack::v1']
+    before => Class['::threatstackv1']
   }
 }
 
 # See .kitchen.yml for setting this fact.
-class { '::threatstack::v1':
+class { '::threatstackv1':
   deploy_key        => $::ts_deploy_key,
   feature_plan      => $::ts_feature_plan,
   agent_config_args => $::ts_config_args,
